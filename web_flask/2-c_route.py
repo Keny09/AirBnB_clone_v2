@@ -1,28 +1,46 @@
 #!/usr/bin/python3
-"""my simple Web Server API application module"""
+
+"""A python script that uses web flask to host web application
+"""
+
 from flask import Flask
+import os
+
 app = Flask(__name__)
-app.url_map.strict_slashes = False
 
 
-@app.route('/')
-def hello_flask():
-    """my first flask application"""
-    return "Hello HBNB!"
+@app.route('/', strict_slashes=False)
+def hello():
+    """A function that displays greetings"""
+    return 'Hello HBNB!'
 
 
-@app.route('/hbnb')
-def hello_hbnb():
-    """function take the path variable"""
-    return "HBNB"
+@app.route('/hbnb', strict_slashes=False)
+def hbnb():
+    """A function that displays hbnb"""
+    return 'HBNB'
 
 
-@app.route('/c/<text>')
-def hello_c(text):
-    """function take the route variable"""
-    text = 'C ' + text.replace('_', ' ')
-    return text
+@app.route('/c/<text>', strict_slashes=False)
+def c(text):
+    """A function that uses variable"""
+    ar = text.split('_')
+    return f'C {" ".join(ar)}'
+
+
+@app.route('/python', strict_slashes=False)
+def pyth_default():
+    """Displays python is cool as default"""
+    return 'Python is cool'
+
+
+@app.route('/python/<text>', strict_slashes=False)
+def pyth(text):
+    """Displays python is cool as default or any other text"""
+    ar = text.split('_')
+    return f'Python {" ".join(ar)}'
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    os.environ['FLASK_ENV'] = 'development'
+    app.run(host='0.0.0.0', port=5000)
